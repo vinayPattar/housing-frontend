@@ -21,6 +21,10 @@ const Login = () => {
       roles: jsData.roles ? jsData.roles : [],
     };
 
+    if (roles.contains("ROLE_ADMIN")) {
+      setAdmin(true);
+    }
+
     localStorage.setItem("USER", JSON.stringify(user));
     //store the token on the context state  so that it can be shared any where in our application by context provider
     setToken(token);

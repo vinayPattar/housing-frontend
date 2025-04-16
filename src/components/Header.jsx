@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const { token, setToken, currentUser, setCurrentUser, } = useMyContext();
-  // console.log(currentUser);
+  console.log(currentUser);
 
   const handleLogout = () => {
     localStorage.removeItem("JWT_TOKEN"); // Updated to remove token from localStorage

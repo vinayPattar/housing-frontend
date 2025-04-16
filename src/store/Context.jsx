@@ -10,8 +10,18 @@ export const ContextProvider = ({ children }) => {
     ? JSON.stringify(localStorage.getItem("JWT_TOKEN"))
     : null;
 
+
+  const isAdmin = localStorage.getItem("IS_ADMIN")
+    && JSON.stringify(localStorage.getItem("IS_ADMIN"));
+
+  const isSeller = localStorage.getItem("IS_SELLER")
+    && JSON.stringify(localStorage.getItem("IS_SELLER"));
   //store the token
   const [token, setToken] = useState(getToken);
+
+  const [Admin, setAdmin] = useState(isAdmin);
+
+  const [seller, setSeller] = useState(isSeller);
 
   //store the current loggedin user
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,18 +34,23 @@ export const ContextProvider = ({ children }) => {
     try {
       const { data } = await api.get(`/auth/user`);
       const roles = data.roles;
-      console.log(roles)
       console.log(data)
-      setCurrentUser(data);
-
 
       if (roles.includes("ROLE_ADMIN")) {
         localStorage.setItem("IS_ADMIN", JSON.stringify(true));
-        // setIsAdmin(true);
+        setAdmin(true);
+      } else if (roles.includes("ROLE_ADMIN")) {
+        localStorage.setItem("IS_SELLER", JSON.stringify(true));
+        setSeller(true);
       } else {
         localStorage.removeItem("IS_ADMIN");
-        // setIsAdmin(false);
+        localStorage.removeItem("IS_SELLER");
+        setAdmin(false);
+        setSeller(false);
+
+        console.log(data)
       }
+      setCurrentUser(data);
 
     } catch (error) {
       console.error("Error fetching current user", error);
