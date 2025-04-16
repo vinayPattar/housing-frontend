@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+.bg-colour {
+  background: #1ada05;
+  background: linear-gradient(237deg, rgba(42, 155, 44, 1) 63%, rgb(15, 202, 90) 95%);
+
+  /* grain texture */
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: repeat;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+
+
+}
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  /* background: #22c55e; */
+  /* green */
+  padding: 1rem 0;
+  display: flex;
+}
+
+.marquee-track {
+  display: inline-block;
+  animation: slide 30s linear infinite;
+  display: flex;
+}
+
+.marquee-track img {
+  height: 40px;
+  margin: 0 1.5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.marquee-track img:hover {
+  opacity: 1;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
