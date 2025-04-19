@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import axios from 'axios';
 import { useMyContext } from '../store/Context';
+import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-const Login = () => {
+const Login = ({ autoFocus }) => {
+
+  const navigate = useNavigate();
+
+  const { register,
+    handleSubmit,
+    reset,
+    setError,
+    formState: { errors }, } = useForm();
   const { currentUser, setCurrentUser } = useMyContext(null);
 
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [token, setToken] = useState("");
-  const [form, setForm] = React.useState({
-    username: '',
-    password: ''
-  });
 
-  const handleSuccessfulLogin = (token, decodedToken, jsData) => {
+
+  const handleLogin = (resData) => {
+    console.log(resData)
     const user = {
-      username: decodedToken.sub,
-      roles: jsData.roles ? jsData.roles : [],
+      username: resData.username,
+      roles: resData.roles ? resData.roles : [],
+
     };
 
-    if (roles.contains("ROLE_ADMIN")) {
-      setAdmin(true);
-    }
+    console.log(user);
 
     localStorage.setItem("USER", JSON.stringify(user));
+    localStorage.setItem("JWT_TOKEN", resData.token);
+
     //store the token on the context state  so that it can be shared any where in our application by context provider
-    setToken(token);
+    setToken(resData.token);
+    console.log(token);
     setCurrentUser(user); // update context
 
     navigate("/");
@@ -35,57 +43,73 @@ const Login = () => {
   };
 
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-
-    })
-  }
-
   useEffect(() => {
     if (token) navigate("/");
 
   }, [navigate, token]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleForm = async (data) => {
+
     try {
-      setLoading(true);
-      // console.log("Form submitted with:", form);
-
-      const response = await api.post('auth/public/signin', form);
-
-      const jsData = response.data;
-      console.log("Login response:", jsData);
-
-
-      const token = jsData.token;
-      const decodedToken = JSON.parse(atob(token.split('.')[1])); // decode JWT payload
-
-      // Save to localStorage
-      localStorage.setItem("JWT_TOKEN", token);
-
-      handleSuccessfulLogin(token, decodedToken, jsData);
+      const response = await api.post('/auth/public/signin', data);
+      handleLogin(response.data);
+      console.log(response.data);
+      toast.success("Login Successful");
 
     } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      alert("Login failed! Please check credentials or try again.");
-    } finally {
-      setLoading(false);
+      toast.error("Login failed. Please check your credentials and try again.")
     }
-  };
+
+
+  }
 
 
 
   return (
-    <div className='mt-20 flex flex-col items-center justify-center'>
-      <h2>Login Here</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name='username' onChange={handleChange} required placeholder="Username" className="block mb-2" />
-        <input type="password" name='password' onChange={handleChange} required placeholder="Password" className="block mb-2" />
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
+    <div className='signup w-full min-h-[calc(100vh-74px)] flex justify-center items-center'>
+      <form onSubmit={handleSubmit(handleForm)} className='w-360 lg:w-100 sm:w-100 mx-10 bg-white shadow-2xl py-6 sm:px-8 px-4 rounded-lg ' >
+        <div className='my-3'>
+          <h1 className="font-montserrat text-center font-bold text-2xl">
+            Login Here
+          </h1>
+          <p className="text-slate-600 text-center">
+            Enter your credentials to Login
+          </p>
+        </div>
+        <div className='flex flex-col gap-2'>
+          <div className='flex flex-col'>
+            <input {...register('username', {
+              required: 'Username is required',
+              minLength: { value: 5, message: 'Minimum 5 characters' }
+            })}
+              className={`  px-2 py-2   ${autoFocus ? "border-0 " : ""
+                }   outline-slate-500 bg-slate-100  text-gray-950 rounded-xl`
+              } placeholder="Enter your username" name="username" type="text" />
+            {errors.username && (
+              <p className="text-sm font-semibold text-red-500 mt-0">{errors.username.message}</p>
+            )}
+          </div>
+          <input {...register('password', {
+            required: 'password is required',
+            minLength: { value: 6, message: 'Minimum 6 characters' }
+          })} className={`  px-2 py-2   ${autoFocus ? "border-0 " : ""
+            }   outline-slate-500 bg-slate-100  text-gray-950 rounded-xl`} placeholder="Enter your password" name="password" type="password" />
+          {errors.password && (
+            <p className="text-sm font-semibold text-red-500 mt-0">{errors.password.message}</p>
+          )}
+          <input type="submit" value={'Register'} className='bg-[linear-gradient(to_right,#5347db,#de9afd)] text-white py-2 px-4 rounded-xl' name="" id="" />
+          <p className="text-center text-sm text-slate-700 mt-2">
+            Dont have an account?{" "}
+            <Link
+              className="font-semibold underline hover:text-black"
+              to="/signup"
+            >
+              Signup
+            </Link>
+          </p>
+        </div>
       </form>
+
     </div>
   )
 }

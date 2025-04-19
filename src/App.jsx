@@ -10,6 +10,7 @@ import ListingCard from './components/ListingCard'
 
 import Header from './components/Header'
 import LandingPage from './pages/LandingPage'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
