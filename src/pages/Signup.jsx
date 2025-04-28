@@ -93,7 +93,7 @@ const Signup = ({ autoFocus }) => {
               <p className="text-sm font-semibold text-red-500 mt-0">{errors.password.message}</p>
             )}
           </div>
-          <input type="submit" value={'Register'} className='bg-[linear-gradient(to_right,#5347db,#de9afd)] text-white py-2 px-4 rounded-xl' name="" id="" />
+          <input type="submit" value={'Register'} className='bg-[linear-gradient(to_right,#5345db,#de5afd)] hover:bg-[linear-gradient(to_right,#5347db,#de9afd)] transition-all 300s ease-in-out  text-white py-2 px-4 rounded-xl cursor-pointer ' name="" id="" />
           <p className="text-center text-sm text-slate-700 mt-2">
             Already have an account?{" "}
             <Link

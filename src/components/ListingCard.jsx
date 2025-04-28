@@ -10,14 +10,14 @@ const ListingCard = ({ item }) => {
   const navigate = useNavigate();
 
   const handleClick = (id) => {
-    navigate(`/listings/id`);
+    navigate(`/listing-details/${id}`);
   }
 
   return (
 
     <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
       <div className="relative">
-        <img src={item.imageUrl} alt={item.name} className="w-full h-48 object-cover" />
+        <img src={item.imageUrl} alt={item.name} className=" transform transition-transform duration-300 hover:scale-105 w-full h-48 object-cover" />
         <button className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100">
           <Heart className="h-5 w-5 text-gray-600" />
         </button>
@@ -54,10 +54,11 @@ const ListingCard = ({ item }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <DollarSign className="h-5 w-5 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">{item.regularPrice}</span>
-            <span className="text-gray-600">/month</span>
+            <span className="text-xl font-bold text-gray-900">{item.offerPrice}</span>
+            {item.type == 'rent' && <span className="text-gray-600">/month</span>}
+
           </div>
-          <button onClick={() => handleClick(item.id)} className="text-blue-600 hover:text-blue-700 font-semibold">
+          <button onClick={() => handleClick(item.id)} className="text-blue-600 cursor-pointer hover:text-blue-700 font-semibold">
             View Details
           </button>
         </div>

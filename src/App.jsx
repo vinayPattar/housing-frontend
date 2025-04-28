@@ -11,9 +11,15 @@ import ListingCard from './components/ListingCard'
 import Header from './components/Header'
 import LandingPage from './pages/LandingPage'
 import { Toaster } from 'react-hot-toast'
+import User from './pages/User'
+import Profile from './components/Profile'
+import CreateListing from './pages/CreateListing'
+import EditProfile from './components/EditProfile'
+import ProtectedRoute from './components/ProtectedRoute'
+import ListingDetail from './pages/ListingDetail'
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <BrowserRouter>
@@ -23,14 +29,23 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        {/* <Route path='/' element={<Cards />} /> */}
-        {/* <Route path='/listings/1BHK house' element={<Home />} /> */}
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} /> */}
+        <Route path='/create-listing' element={<CreateListing />} />
+        <Route path="/user" element={<User />}>
+          <Route index element={<Profile />} /> {/* This is the fix! */}
+          <Route path="userdetails" element={<Profile />} />
+          <Route path="addlisting" element={<CreateListing />} />
+          <Route path="editprofile" element={<EditProfile />} />
+          {/* Add more subroutes here */}
+        </Route>
+        <Route path='/listing-details/:id' element={<ListingDetail />} />
+        {/* <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>}>
+          <Route path="userdetails" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="addlisting" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />
+          <Route path="editprofile" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+          {/* Add more subroutes here */}
+        {/* </Route> */}
       </Routes>
-
-    </BrowserRouter>
+    </BrowserRouter >
   )
 }
 

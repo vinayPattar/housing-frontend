@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/Header'
 import { Home, Building2, Search, Star, DollarSign, MapPin, BedDouble, Bath, Ruler, Heart, ChevronDown } from 'lucide-react';
 import Featured from '../components/Featured';
+import Features from '../components/Features';
 
 const LandingPage = () => {
 
@@ -16,12 +17,12 @@ const LandingPage = () => {
             className="w-full h-full object-cover opacity-20"
           />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:pt-5 relative">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-5xl font-bold text-white mb-4 leading-tight">
               Discover Your Perfect Space
             </h1>
-            <p className="text-xl text-blue-100 mb-12">
+            <p className="text-xl text-blue-100 mb-6">
               Your dream home is just a few clicks away. Start your journey today.
             </p>
             <div className="max-w-3xl mx-auto">
@@ -47,6 +48,7 @@ const LandingPage = () => {
 
 
       <Featured />
+      <Features />
       {/* <Cards /> */}
 
     </div>

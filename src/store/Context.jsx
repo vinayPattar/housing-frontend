@@ -32,7 +32,7 @@ export const ContextProvider = ({ children }) => {
 
 
     try {
-      const { data } = await api.get(`/auth/user`);
+      const { data } = await api.get(`/auth/private/user`);
       const roles = data.roles;
       console.log(data)
 

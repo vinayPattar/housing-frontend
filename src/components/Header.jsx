@@ -5,16 +5,16 @@ import { IoMdMenu } from 'react-icons/io'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import avatar from '../assets/avatar.png'
 import { useMyContext } from '../store/Context'
-
+import logo from "../assets/logo1.png"
 const Header = () => {
 
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showImageDropdown, setShowImageDropdown] = useState(false);
 
 
   const navigate = useNavigate();
 
   const { token, setToken, currentUser, setCurrentUser, } = useMyContext();
-  console.log(currentUser);
 
   const handleLogout = () => {
     localStorage.removeItem("JWT_TOKEN"); // Updated to remove token from localStorage
@@ -24,9 +24,11 @@ const Header = () => {
     setToken(null);
     setCurrentUser(null);
     setShowDropdown(false)
+    setShowImageDropdown(false)
     // setIsAdmin(false);
     navigate("/login");
   }
+
 
   // const handleMenuClick = () => {
 
@@ -38,15 +40,15 @@ const Header = () => {
     <nav className='fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm z-50 w-full font-[Satoshi] text-black'>
 
       <div className='flex h-full items-center justify-between mx-8 lg:mx-28 max-w-7xl'>
-        <div className='logo w-22'>
-          <img className='w-full h-full object-cover' src="https://as1.ftcdn.net/v2/jpg/06/34/31/96/1000_F_634319630_txtgmPLEEQ8o4zaxec2WKrLWUBqdBBQn.webp" alt="" />
+        <div className='logo lg:w-22 w-18 py-2'>
+          <Link to="/"><img className='w-full h-full object-cover' src={logo} alt="" /></Link>
         </div>
 
         {showDropdown && <div
           id='links'
-          className='lg:hidden w-[240px] mt-1 mr-3 z-10 flex flex-col gap-2 bg-white/100 backdrop-blur-xl shadow-lg text-black font-semibold px-3 py-2 rounded absolute right-5 top-14'
+          className='flg:hidden fixed w-[240px] mt-1 mr-3 z-1000 flex flex-col gap-2 bg-white backdrop-blur-md shadow-sm  text-black font-semibold px-3 py-2 rounded  right-5 top-14'
         >
-          {token ? <Link to='/userdetails'>
+          {token ? <Link to='/user'>
             <div className="flex gap-3 items-center ">
               <img
                 src={currentUser?.profilePic || "https://i.pinimg.com/736x/e8/e6/41/e8e64141f4c0ae39c32f9701ccea9a2e.jpg"}
@@ -66,43 +68,50 @@ const Header = () => {
           <Link className='' to="/contact">Contact</Link>
           {token ? <>
             <hr />
-            <p onClick={handleLogout} className='text-red-400' >Logout</p>
+            <p onClick={handleLogout} className='text-red-400 cursor-pointer' >Logout</p>
           </> :
             null}
         </div>}
 
         <div className='hidden gap-4 lg:flex'>
-          <NavLink className=" font-medium text-xl" style={(e) => {
+          <NavLink className=" font-medium text-xl hover:opacity-70" style={(e) => {
             return {
               color: e.isActive ? "tomato" : ""
             }
           }} to="/">Home</NavLink>
 
-          <NavLink className=" font-medium text-xl" style={(e) => {
+          <NavLink className=" font-medium text-xl hover:opacity-70" style={(e) => {
             return {
               color: e.isActive ? "tomato" : ""
             }
-          }} to="/blog">Listings</NavLink>
-          <NavLink className=" font-medium text-xl" style={(e) => {
+          }} to="/listings">Listings</NavLink>
+          <NavLink className=" font-medium text-xl hover:opacity-70" style={(e) => {
             return {
               color: e.isActive ? "tomato" : ""
             }
-          }} to="/contact">About</NavLink>
-          <NavLink className=" font-medium text-xl" style={(e) => {
+          }} to="/about">About</NavLink>
+          <NavLink className=" font-medium hover:opacity-70 text-xl" style={(e) => {
             return {
               color: e.isActive ? "tomato" : ""
             }
           }} to="/contact">Contact</NavLink>
         </div>
 
-        <div className='flex items-center justify-between gap-5'>
-          <Link to='/user'>
+        {showImageDropdown &&
+          <div className="w-[140px] mr-3  flex flex-col gap-2 bg-[white/80] backdrop-blur-md shadow-lg text-black font-semibold px-3 py-2 rounded  absolute right-28 top-15 ">
+            <Link to="/user">Profile</Link>
+            <p onClick={handleLogout} className='text-red-400 cursor-pointer' >Logout</p>
+          </div>}
+
+        <div className='flex items-center justify-between gap-4'>
+          {token ?
             <img
+              onClick={() => setShowImageDropdown(prev => !prev)}
               src="https://i.pinimg.com/736x/e8/e6/41/e8e64141f4c0ae39c32f9701ccea9a2e.jpg"
               alt="Profile"
-              className="hidden lg:block h-12 w-12 border-2 border-white rounded-full object-cover"
+              className="hidden z-11 lg:block h-12 w-12 border-2 cursor-pointer border-white rounded-full object-cover"
             />
-          </Link>
+            : <Link className='hidden lg:block text-white bg-red-500 py-1 px-7 rounded hover:bg-red-600 transition-all 300s ease-in-out' onClick={() => setShowDropdown(false)} to={'/login'}>Login</Link>}
 
 
           <i onClick={() => setShowDropdown(prev => !prev)} id="menuBtn" class="ri-menu-line text-black text-2xl lg:hidden cursor-pointer"></i>
