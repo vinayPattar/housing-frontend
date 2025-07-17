@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import api from '../services/api';
+import { Heart } from 'lucide-react';
 
 const ContextApi = createContext();
 
@@ -26,15 +27,22 @@ export const ContextProvider = ({ children }) => {
   //store the current loggedin user
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [favorites, setFavorites] = useState([]);
+
+  const toggleFavorite = (id) => {
+    setFavorites(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+
   const fetchUser = async () => {
     const user = JSON.parse(localStorage.getItem("USER"));
-    console.log(user)
 
 
     try {
       const { data } = await api.get(`/auth/private/user`);
       const roles = data.roles;
-      console.log(data)
 
       if (roles.includes("ROLE_ADMIN")) {
         localStorage.setItem("IS_ADMIN", JSON.stringify(true));
@@ -48,7 +56,6 @@ export const ContextProvider = ({ children }) => {
         setAdmin(false);
         setSeller(false);
 
-        console.log(data)
       }
       setCurrentUser(data);
 
@@ -67,14 +74,15 @@ export const ContextProvider = ({ children }) => {
   }, [token]);
 
 
-
-
   return <ContextApi.Provider
     value={{
       token,
       setToken,
       currentUser,
       setCurrentUser,
+      favorites,
+      toggleFavorite,
+      setFavorites,
     }}>{children}</ContextApi.Provider>
 }
 

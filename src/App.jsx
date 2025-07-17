@@ -17,6 +17,7 @@ import CreateListing from './pages/CreateListing'
 import EditProfile from './components/EditProfile'
 import ProtectedRoute from './components/ProtectedRoute'
 import ListingDetail from './pages/ListingDetail'
+import UserListings from './components/UserListings'
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route index element={<Profile />} /> {/* This is the fix! */}
           <Route path="userdetails" element={<Profile />} />
           <Route path="addlisting" element={<CreateListing />} />
+          <Route path="viewlistings" element={<UserListings />} />
           <Route path="editprofile" element={<EditProfile />} />
           {/* Add more subroutes here */}
         </Route>

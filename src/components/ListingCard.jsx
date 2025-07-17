@@ -3,11 +3,15 @@ import { FaBath, FaBed, FaMapMarkerAlt } from "react-icons/fa";
 import { MdLocationOn } from 'react-icons/md';
 import { Home, Building2, Search, Star, DollarSign, MapPin, BedDouble, Bath, Ruler, Heart, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useMyContext } from '../store/Context';
 
 
 const ListingCard = ({ item }) => {
 
   const navigate = useNavigate();
+  const { favorites, toggleFavorite } = useMyContext();
+
+  const isFav = favorites.includes(item.id);
 
   const handleClick = (id) => {
     navigate(`/listing-details/${id}`);
@@ -18,8 +22,13 @@ const ListingCard = ({ item }) => {
     <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
       <div className="relative">
         <img src={item.imageUrl} alt={item.name} className=" transform transition-transform duration-300 hover:scale-105 w-full h-48 object-cover" />
-        <button className="absolute top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100">
-          <Heart className="h-5 w-5 text-gray-600" />
+        <button onClick={() => toggleFavorite(item.id)} className="absolute cursor-pointer top-4 right-4 p-2 bg-white rounded-full shadow hover:bg-gray-100">
+          {isFav ? (
+            <Heart className="h-6 w-6  text-red-800 fill-red-800" />
+          ) : (
+            <Heart className="h-6 w-6 text-gray-800" />
+          )}
+
         </button>
         <p></p>
       </div>

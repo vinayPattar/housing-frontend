@@ -93,7 +93,7 @@ const Login = ({ autoFocus }) => {
               className={`  px-2 py-2   ${autoFocus ? "border-0 " : ""
                 }   outline-slate-500 bg-slate-100  text-gray-950 rounded-xl`
               } placeholder="Enter your username"
-              defaultValue={"vinay"}
+              defaultValue={"admin"}
               name="username" type="text" />
             {errors.username && (
               <p className="text-sm font-semibold text-red-500 mt-0">{errors.username.message}</p>
@@ -104,7 +104,7 @@ const Login = ({ autoFocus }) => {
             minLength: { value: 6, message: 'Minimum 6 characters' }
           })} className={`  px-2 py-2   ${autoFocus ? "border-0 " : ""
             }   outline-slate-500 bg-slate-100  text-gray-950 rounded-xl`} placeholder="Enter your password" name="password"
-            defaultValue={"vinay123"}
+            defaultValue={"adminPass"}
             type="password" />
           {errors.password && (
             <p className="text-sm font-semibold text-red-500 mt-0">{errors.password.message}</p>

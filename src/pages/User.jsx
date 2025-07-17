@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { HousePlus, UserRound } from 'lucide-react'
+import { HouseIcon, HousePlus, UserRound } from 'lucide-react'
 import { useLocation } from 'react-router-dom';
 
 
@@ -37,6 +37,17 @@ const User = () => {
             >
               <HousePlus />
               <span className='font-semibold text-lg'>Add Listing</span>
+            </NavLink>
+
+            <NavLink
+              to="viewlistings"
+              className={({ isActive }) =>
+                `lg:flex-row flex flex-col items-center gap-2 p-2 rounded-lg transition ${isActive ? 'bg-amber-400 text-black' : 'hover:bg-amber-400 hover:text-black'
+                }`
+              }
+            >
+              <HouseIcon />
+              <span className='font-semibold text-lg'>View Listings</span>
             </NavLink>
 
           </div>
